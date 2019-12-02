@@ -59,12 +59,15 @@
 
           <div class="card mb-4 shadow-sm" >
 
-              <img src="https://m.media-amazon.com/images/M/MV5BOTRjZDMwZmQtZTgzZC00NGU1LThlMjctODBmNDNmMzlmN2RhXkEyXkFqcGdeQXVyNjEwNTM2Mzc@._V1_SY298_CR4,0,201,298_AL_.jpg"  alt="上海鲜花港 - 郁金香" />
+              <img th:src= "@{${info.getPoster()}}"/>
             <div class="card-body">
+              <p class="card-text" th:text="'IMDB ID:'+${info.getImdbID()}"></p>
                 <p class="card-text" th:text="'Title:'+ ${info.getTitle()}+'('+${info.getYear()}+')'"></p>
+              <p class="card-text" th:text="'Rating:'+${info.getImdbRated()}"></p>
               <p class="card-text" th:text="'Plot:'+${info.getPlot()}"></p>
-                <p class="card-text" th:text="'Celebrities:'+${info.getCelebrities()}"></p>
-                <p class="card-text" th:text="'type:'+${info.getType()}"></p>
+                <p class="card-text" th:text="'Actors:'+${info.getActors()}"></p>
+              <p class="card-text" th:text="'Director:'+${info.getDirector()}"></p>
+                <p class="card-text" th:text="'Gene:'+${info.getGenre()}"></p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button type="button" class="btn btn-sm btn-outline-secondary">View</button>

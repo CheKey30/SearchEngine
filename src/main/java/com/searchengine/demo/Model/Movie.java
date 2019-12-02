@@ -3,50 +3,122 @@ package com.searchengine.demo.Model;
 
 
 public class Movie {
-    private String title;
-    private int year;
-    private String plot;
-    private String type;
-    private String celebrities;
-
-    public int getYear() {
-        return year;
-    }
-
-    public String getPlot() {
-        return plot;
-    }
+    private String Title;
+    private String Year;
+    private String imdbRated;
+    private String Runtime;
+    private String Genre;
+    private String Director;
+    private String Writer;
+    private String Actors;
+    private String Plot;
+    private String Language;
+    private String Country;
+    private String Poster;
+    private String imdbID;
 
     public String getTitle() {
-        return title;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getCelebrities() {
-        return celebrities;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public void setCelebrities(String celebrities) {
-        this.celebrities = celebrities;
-    }
-
-    public void setPlot(String plot) {
-        this.plot = plot;
+        return Title;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        Title = title;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public String getYear() {
+        return Year;
+    }
+
+    public void setYear(String year) {
+        Year = year;
+    }
+
+    public String getImdbRated() {
+        return imdbRated;
+    }
+
+    public void setRated(String rated) {
+        imdbRated = rated;
+    }
+
+    public String getRuntime() {
+        return Runtime;
+    }
+
+    public void setRuntime(String runtime) {
+        Runtime = runtime;
+    }
+
+    public String getGenre() {
+        return Genre;
+    }
+
+    public void setGenre(String genre) {
+        Genre = genre;
+    }
+
+    public String getDirector() {
+        return Director;
+    }
+
+    public void setDirector(String director) {
+        Director = director;
+    }
+
+    public String getWriter() {
+        return Writer;
+    }
+
+    public void setWriter(String writer) {
+        Writer = writer;
+    }
+
+    public String getActors() {
+        return Actors;
+    }
+
+    public void setActors(String actors) {
+        Actors = actors;
+    }
+
+    public String getPlot() {
+        return Plot;
+    }
+
+    public void setPlot(String plot) {
+        Plot = plot;
+    }
+
+    public String getLanguage() {
+        return Language;
+    }
+
+    public void setLanguage(String language) {
+        Language = language;
+    }
+
+    public String getCountry() {
+        return Country;
+    }
+
+    public void setCountry(String country) {
+        Country = country;
+    }
+
+    public String getPoster() {
+        return Poster;
+    }
+
+    public void setPoster(String poster) {
+        Poster = poster;
+    }
+
+    public String getImdbID() {
+        return imdbID;
+    }
+
+    public void setImdbID(String imdbID) {
+        this.imdbID = imdbID;
     }
 
 }
