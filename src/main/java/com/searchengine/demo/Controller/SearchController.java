@@ -23,7 +23,7 @@ public class SearchController {
 
     @GetMapping("/")
     public ModelAndView newsearchwebForm(Model model) {
-        ModelAndView modelAndView = new ModelAndView("index");
+        ModelAndView modelAndView = new ModelAndView("index2");
         model.addAttribute("search", new Search());
         //ArrayList<Movie> movielist= new ArrayList<Movie>();
         model.addAttribute("movielist", new ArrayList<Movie>());
