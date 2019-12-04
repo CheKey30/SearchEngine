@@ -7,18 +7,17 @@
     <link href="css/newmain.css" rel="stylesheet" />
 </head>
 <body>
+<img id="img" src= "images/image.png"/>
 <div id="cover">
+
     <form action="#" th:action="@{/search}" th:object="${search}" method="post">
         <div class="tb">
             <div class="td"><input type="text" th:field="*{content}" placeholder="Search" required></div>
-            <div class="td" id="s-cover">
-                <button type="submit">
-                    <div id="s-circle"></div>
-                    <span></span>
-                </button>
-            </div>
+
         </div>
+
     </form>
+
 </div>
 </body>
 </html>
