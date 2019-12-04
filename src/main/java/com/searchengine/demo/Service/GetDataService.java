@@ -20,7 +20,7 @@ public class GetDataService {
 
     public List<Movie> getAllMoviesByTitle(){
         List<Movie> movies = new ArrayList<>();
-        String url = "http://www.omdbapi.com/?t={title}&plot={type}&apikey=4108095f";
+        String url = "http://www.omdbapi.com/?i={id}&plot={type}&apikey=4108095f";
         try{
             File file = new File(Path.movieTitles);
             FileReader fileReader = new FileReader(file);
@@ -39,12 +39,12 @@ public class GetDataService {
         }
         return movies;
     }
-    public Movie client(String url,String name,String type) throws JSONException {
+    public Movie client(String url,String id,String type) throws JSONException {
         RestTemplate template = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         Map<String,Object> map = new HashMap<>();
-        map.put("title",name);
+        map.put("id",id);
         map.put("type",type);
         String movieInfo = template.getForObject(url,String.class,map);//{"msg":"调用成功！","code":1}
         //System.out.println(oneMovie);
