@@ -118,7 +118,7 @@ public class MyIndexReader {
         if(res.size()>n){
             return;
         }
-        String[] fields = {"title","actors","plot","score","year","imdbID"};
+        String[] fields = {"actors","director","score","year"};
         QueryParser parser = new MultiFieldQueryParser(fields,analyzer);
         Query query = parser.parse(prequery);
         TopDocs topDocs = isearcher.search(query,n);
