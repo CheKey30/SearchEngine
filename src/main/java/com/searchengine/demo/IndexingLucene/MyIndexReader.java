@@ -198,4 +198,11 @@ public class MyIndexReader {
         searchbyFieldwithCheck(prequery,"plot",n,res,ids);
         return res;
     }
+
+    // new way to do search, add tf-idf sort
+    public List<Movie> getTopN2(String prequery, int n) throws Exception{
+        HashSet<String> ids = new HashSet<>();
+        List<Movie> res = new ArrayList<>();
+        return res;
+    }
 }
