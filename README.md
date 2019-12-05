@@ -13,8 +13,4 @@ Then you can start the spring boot and visit this website on "localhost:8080"
 
 
 ### Further improvement
-
-1. improve the front-end, change the color of the background and the size of the search bar. Also change the layout of the search result please.
-2. improve the size of the data. Now, I only use top250 as the dataset to do search. Please enlarge it to 1000. The way to do it is to get the top 1000 film name and save it as .txt file. Each name should be in one line. then replace the "data/top250.txt" with this file and also change the corresponding path in "Path.java" and run the main function again to get the index.
-3. Try to improve the search algorithm. For example, try to improve the sort of search result.
-4. deploy the website on a server.
+Imporve the search algorithm
