@@ -65,6 +65,7 @@
             <div class="col-md-8">
               <div class="card-body">
                 <h5 class="card-title" th:text="${info.getTitle()}+'('+${info.getYear()}+')'">Card title</h5>
+                <h7 class="card-title" th:text="${info.getImdbID()}">Card title</h7>
                 <p ><b class="card-text" >Rating: </b><span class="card-text" th:text="${info.getImdbRated()}"></span></p>
                 <p class="card-text" ><b class="card-text" th:text="${info.getGenre()}"></b></p>
                 <p ><b class="card-text" >Director: </b><span class="card-text" th:text="${info.getDirector()}"></span></p>
