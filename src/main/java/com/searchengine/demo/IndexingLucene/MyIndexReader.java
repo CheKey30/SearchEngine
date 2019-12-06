@@ -258,8 +258,8 @@ public class MyIndexReader {
             searchbyFieldAcc(m.getDirector(),"director",n,res,ids);
         }
         // then do the fuzzy search with boost on plot
-        String[] field2 = {"plot"};
-        fuzzysearchbyMultiFields(prequery,fields,n,res,ids);
+        String[] fields2 = {"plot"};
+        fuzzysearchbyMultiFields(prequery,fields2,n,res,ids);
         return res;
     }
 
