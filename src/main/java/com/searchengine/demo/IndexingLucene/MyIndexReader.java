@@ -266,7 +266,7 @@ public class MyIndexReader {
     public static String filtration(String str) {  // method modified from: https://blog.csdn.net/plg17/article/details/86140816
         String regEx = "[`~!@#$%^&*()+=|{}:;\\\\[\\\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？']";
         String regEx2 = "\\s+";
-        str = Pattern.compile(regEx).matcher(str).replaceAll("").trim();
+        str = Pattern.compile(regEx).matcher(str).replaceAll(" ").trim();
         str = Pattern.compile(regEx2).matcher(str).replaceAll(" ").trim();
 
         return str;
