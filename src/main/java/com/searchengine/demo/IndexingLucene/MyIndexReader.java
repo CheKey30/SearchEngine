@@ -197,7 +197,7 @@ public class MyIndexReader {
     }
 
     public void searchbyFieldAcc(String prequery, String field, int n,List<Movie> res,HashSet<String> ids) throws Exception{
-        if(res.size()>=n){
+        if(res.size()>n){
             return;
         }
         String[] names = prequery.split(",");
