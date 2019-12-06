@@ -25,6 +25,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class MyIndexReader {
     private Directory directory;
@@ -233,6 +234,7 @@ public class MyIndexReader {
     public List<Movie> getTopN(String prequery, int n) throws Exception {
         HashSet<String> ids = new HashSet<>();
         List<Movie> res = new ArrayList<>();
+        prequery = filtration(prequery); //remove Special characters in queries that make website errors
         // search on all field first with boost (exact search)
         searchByMulitFields(prequery,n,res,ids);
         // first do the fuzzy search with boost
@@ -246,6 +248,15 @@ public class MyIndexReader {
             searchbyFieldAcc(m.getDirector(),"director",n,res,ids);
         }
         return res;
+    }
+
+    public static String filtration(String str) {  // method modified from: https://blog.csdn.net/plg17/article/details/86140816
+        String regEx = "[`~!@#$%^&*()+=|{}:;\\\\[\\\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？']";
+        String regEx2 = "\\s+";
+        str = Pattern.compile(regEx).matcher(str).replaceAll("").trim();
+        str = Pattern.compile(regEx2).matcher(str).replaceAll(" ").trim();
+
+        return str;
     }
 
     // new way to do search, add tf-idf sort
