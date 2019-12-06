@@ -113,7 +113,7 @@ public class MyIndexReader {
 
     }
 
-    public void fuzzysearchbyMultiFields(String prequery, int n,List<Movie> res,HashSet<String> ids) throws Exception{
+    public void fuzzysearchbyMultiFields(String prequery, String[] fields,int n,List<Movie> res,HashSet<String> ids) throws Exception{
         if(res.size()>=n){
             return;
         }
@@ -124,7 +124,6 @@ public class MyIndexReader {
         }
         prequery = fuzzy_tokens.toString().trim();
 
-        String[] fields = {"title","actors","director","plot","score","year","imdbID"};
         Map<String,Float> boosts = new HashMap<>();
         boosts.put("title",(float)30);
         boosts.put("actors",(float)30);
@@ -205,7 +204,7 @@ public class MyIndexReader {
         String[] names = prequery.split(",");
         int number = Math.min(names.length,3);
         for(int i=0;i<number;i++){
-            String name = names[i].trim()+",";
+            String name = names[i].trim(); //match new format of input data:  alan walker , tom allen
             PhraseQuery query = new PhraseQuery(field,name.split(" "));
             TopDocs topDocs = isearcher.search(query,n);
             int j=0;
@@ -237,16 +236,30 @@ public class MyIndexReader {
         prequery = filtration(prequery); //remove Special characters in queries that make website errors
         // search on all field first with boost (exact search)
         searchByMulitFields(prequery,n,res,ids);
-        // first do the fuzzy search with boost
-        fuzzysearchbyMultiFields(prequery,n,res,ids);;
-        // then search by the search result
+        // then search by the search result if there're results
         List<Movie> firstRes= new ArrayList<>(res);
+        if (firstRes.size()!=0){
+            for(Movie m: firstRes){
+                searchbyFieldAcc(m.getActors(),"actors",n,res,ids);
+            }
+            for(Movie m: firstRes){
+                searchbyFieldAcc(m.getDirector(),"director",n,res,ids);
+            }
+        }
+        // then do the fuzzy search with boost on fields without plot
+        String[] fields = {"title","actors","director","score","year","imdbID"};
+        fuzzysearchbyMultiFields(prequery,fields,n,res,ids);
+        // then search by the search result
+        firstRes= new ArrayList<>(res);
         for(Movie m: firstRes){
             searchbyFieldAcc(m.getActors(),"actors",n,res,ids);
         }
         for(Movie m: firstRes){
             searchbyFieldAcc(m.getDirector(),"director",n,res,ids);
         }
+        // then do the fuzzy search with boost on plot
+        String[] fields2 = {"plot"};
+        fuzzysearchbyMultiFields(prequery,fields2,n,res,ids);
         return res;
     }
 
