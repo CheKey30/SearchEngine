@@ -32,11 +32,11 @@ public class MyIndexWriter {
         Document doc = new Document();
         doc.add(new StringField("imdbID", movie.getImdbID().toLowerCase(), Field.Store.YES));
         doc.add(new TextField("plot", movie.getPlot().toLowerCase(), Field.Store.YES));
-        doc.add(new TextField("actors",movie.getActors().toLowerCase(), Field.Store.YES));
+        doc.add(new TextField("actors",movie.getActors().toLowerCase().replace(","," ,"), Field.Store.YES));
         doc.add(new TextField("title",movie.getTitle().toLowerCase(), Field.Store.YES));
-        doc.add(new TextField("director",movie.getDirector().toLowerCase(), Field.Store.YES));
+        doc.add(new TextField("director",movie.getDirector().toLowerCase().replace(","," ,"), Field.Store.YES));
         doc.add(new TextField("year",movie.getYear(), Field.Store.YES));
-        doc.add(new TextField("genre",movie.getGenre().toLowerCase(), Field.Store.YES));
+        doc.add(new TextField("genre",movie.getGenre().toLowerCase().replace(","," ,"), Field.Store.YES));
         doc.add(new TextField("score",movie.getImdbRated(), Field.Store.YES));
         doc.add(new StoredField("poster",movie.getPoster()));
         ixwriter.addDocument(doc);
