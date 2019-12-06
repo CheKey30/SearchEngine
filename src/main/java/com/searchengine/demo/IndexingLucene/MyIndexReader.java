@@ -134,6 +134,7 @@ public class MyIndexReader {
         boosts.put("imdbID",(float)10);
 
         QueryParser parser = new MultiFieldQueryParser(fields,analyzer,boosts);
+        parser.setDefaultOperator(QueryParser.Operator.AND);
         Query query = parser.parse(prequery);
         TopDocs topDocs = isearcher.search(query,n);
         int i=0;
@@ -260,6 +261,14 @@ public class MyIndexReader {
         // then do the fuzzy search with boost on plot
         String[] fields2 = {"plot"};
         fuzzysearchbyMultiFields(prequery,fields2,n,res,ids);
+        // then search by the search result
+        firstRes= new ArrayList<>(res);
+        for(Movie m: firstRes){
+            searchbyFieldAcc(m.getActors(),"actors",n,res,ids);
+        }
+        for(Movie m: firstRes){
+            searchbyFieldAcc(m.getDirector(),"director",n,res,ids);
+        }
         return res;
     }
 
