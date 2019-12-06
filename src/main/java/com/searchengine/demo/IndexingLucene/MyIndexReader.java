@@ -82,13 +82,12 @@ public class MyIndexReader {
         if(res.size()>=n){
             return;
         }
-        String[] tokens = prequery.split(" ");
+        String[] tokens = prequery.toLowerCase().split(" ");
         for(String s: tokens){
             if(stopwords.contains(s.trim())){
                 continue;
             }
-            prequery = prequery.toLowerCase();
-            Query query = new FuzzyQuery(new Term(field,prequery),2);
+            Query query = new FuzzyQuery(new Term(field,s),2);
             TopDocs topDocs = isearcher.search(query,n);
             int i=0;
             while (res.size()<n && i<topDocs.scoreDocs.length){
