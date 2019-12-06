@@ -233,8 +233,8 @@ public class MyIndexReader {
         HashSet<String> ids = new HashSet<>();
         List<Movie> res = new ArrayList<>();
         // search on all field first with boost
-        searchByMulitFields(prequery,n,res,ids);
-        // then do the fuzzy search
+        //searchByMulitFields(prequery,n,res,ids);
+        // first do the fuzzy search
         fuzzysearchbyMultiFields(prequery,n,res,ids);;
         // then search by the search result
         List<Movie> firstRes= new ArrayList<>(res);
