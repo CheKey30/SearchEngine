@@ -112,6 +112,52 @@ public class MyIndexReader {
 
     }
 
+    public void fuzzysearchbyMultiFields(String prequery, int n,List<Movie> res,HashSet<String> ids) throws Exception{
+        if(res.size()>=n){
+            return;
+        }
+        String[] tokens = prequery.toLowerCase().replace(",","").split(" ");
+        StringBuilder fuzzy_tokens = new StringBuilder();
+        for(String s: tokens) {
+            fuzzy_tokens.append(s.trim()).append("~2").append(" ");
+        }
+        prequery = fuzzy_tokens.toString().trim();
+
+        String[] fields = {"title","actors","director","plot","score","year","imdbID"};
+        Map<String,Float> boosts = new HashMap<>();
+        boosts.put("title",(float)30);
+        boosts.put("actors",(float)30);
+        boosts.put("director",(float)30);
+        boosts.put("plot",(float)10);
+        boosts.put("score",(float)10);
+        boosts.put("year",(float)20);
+        boosts.put("imdbID",(float)10);
+
+        QueryParser parser = new MultiFieldQueryParser(fields,analyzer,boosts);
+        Query query = parser.parse(prequery);
+        TopDocs topDocs = isearcher.search(query,n);
+        int i=0;
+        while (i<topDocs.scoreDocs.length){
+            Document doc = isearcher.doc(topDocs.scoreDocs[i].doc);
+            Movie movie = new Movie();
+            movie.setImdbID(doc.get("imdbID"));
+            movie.setTitle(doc.get("title"));
+            movie.setPlot(doc.get("plot"));
+            movie.setActors(doc.get("actors"));
+            movie.setDirector(doc.get("director"));
+            movie.setYear(doc.get("year"));
+            movie.setGenre(doc.get("genre"));
+            movie.setRated(doc.get("score"));
+            movie.setPoster(doc.get("poster"));
+            if(!ids.contains(movie.getImdbID())){
+                ids.add(movie.getImdbID());
+                res.add(movie);
+            }
+            i++;
+        }
+
+    }
+
     public void searchByMulitFields(String prequery, int n,List<Movie> res,HashSet<String> ids) throws Exception{
         if(res.size()>n){
             return;
@@ -151,7 +197,7 @@ public class MyIndexReader {
     }
 
     public void searchbyFieldAcc(String prequery, String field, int n,List<Movie> res,HashSet<String> ids) throws Exception{
-        if(res.size()>n){
+        if(res.size()>=n){
             return;
         }
         String[] names = prequery.split(",");
@@ -189,9 +235,7 @@ public class MyIndexReader {
         // search on all field first with boost
         searchByMulitFields(prequery,n,res,ids);
         // then do the fuzzy search
-        searchbyFieldwithCheck(prequery,"title",n,res,ids);
-        searchbyFieldwithCheck(prequery,"actors",n,res,ids);
-        searchbyFieldwithCheck(prequery,"plot",n,res,ids);
+        fuzzysearchbyMultiFields(prequery,n,res,ids);;
         // then search by the search result
         List<Movie> firstRes= new ArrayList<>(res);
         for(Movie m: firstRes){
