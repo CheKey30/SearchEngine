@@ -267,7 +267,7 @@ public class MyIndexReader {
         String regEx = "[`~!@#$%^&*()+=|{}:;\\\\[\\\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？']";
         String regEx2 = "\\s+";
         str = Pattern.compile(regEx).matcher(str).replaceAll(" ").trim();
-        str = Pattern.compile(regEx2).matcher(str).replaceAll(" ").trim();
+        str = Pattern.compile(regEx2).matcher(str).replaceAll(" ").replace("-"," ").trim();
 
         return str;
     }
