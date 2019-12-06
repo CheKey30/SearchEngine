@@ -173,6 +173,7 @@ public class MyIndexReader {
         boosts.put("imdbID",(float)10);
 
         QueryParser parser = new MultiFieldQueryParser(fields,analyzer,boosts);
+        parser.setDefaultOperator(QueryParser.Operator.AND); //exact search
         Query query = parser.parse(prequery);
         TopDocs topDocs = isearcher.search(query,n);
         int i=0;
@@ -232,9 +233,9 @@ public class MyIndexReader {
     public List<Movie> getTopN(String prequery, int n) throws Exception {
         HashSet<String> ids = new HashSet<>();
         List<Movie> res = new ArrayList<>();
-        // search on all field first with boost
-        //searchByMulitFields(prequery,n,res,ids);
-        // first do the fuzzy search
+        // search on all field first with boost (exact search)
+        searchByMulitFields(prequery,n,res,ids);
+        // first do the fuzzy search with boost
         fuzzysearchbyMultiFields(prequery,n,res,ids);;
         // then search by the search result
         List<Movie> firstRes= new ArrayList<>(res);
