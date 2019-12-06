@@ -16,6 +16,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.search.spell.DirectSpellChecker;
 
 import org.apache.lucene.document.Document;
+import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.BufferedReader;
@@ -23,9 +24,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class MyIndexReader {
     private Directory directory;
@@ -83,13 +82,12 @@ public class MyIndexReader {
         if(res.size()>=n){
             return;
         }
-        String[] tokens = prequery.split(" ");
+        String[] tokens = prequery.toLowerCase().split(" ");
         for(String s: tokens){
             if(stopwords.contains(s.trim())){
                 continue;
             }
-            prequery = prequery.toLowerCase();
-            Query query = new FuzzyQuery(new Term(field,prequery),2);
+            Query query = new FuzzyQuery(new Term(field,s),2);
             TopDocs topDocs = isearcher.search(query,n);
             int i=0;
             while (res.size()<n && i<topDocs.scoreDocs.length){
@@ -119,7 +117,16 @@ public class MyIndexReader {
             return;
         }
         String[] fields = {"title","actors","director","plot","score","year","imdbID"};
-        QueryParser parser = new MultiFieldQueryParser(fields,analyzer);
+        Map<String,Float> boosts = new HashMap<>();
+        boosts.put("title",(float)30);
+        boosts.put("actors",(float)30);
+        boosts.put("director",(float)30);
+        boosts.put("plot",(float)10);
+        boosts.put("score",(float)10);
+        boosts.put("year",(float)20);
+        boosts.put("imdbID",(float)10);
+
+        QueryParser parser = new MultiFieldQueryParser(fields,analyzer,boosts);
         Query query = parser.parse(prequery);
         TopDocs topDocs = isearcher.search(query,n);
         int i=0;
@@ -179,9 +186,12 @@ public class MyIndexReader {
     public List<Movie> getTopN(String prequery, int n) throws Exception {
         HashSet<String> ids = new HashSet<>();
         List<Movie> res = new ArrayList<>();
-        // do search by title and imdbID first
-        searchbyField(prequery,"title",n,res,ids);
-        searchbyField(prequery,"imdbID",n,res,ids);
+        // search on all field first with boost
+        searchByMulitFields(prequery,n,res,ids);
+        // then do the fuzzy search
+        searchbyFieldwithCheck(prequery,"title",n,res,ids);
+        searchbyFieldwithCheck(prequery,"actors",n,res,ids);
+        searchbyFieldwithCheck(prequery,"plot",n,res,ids);
         // then search by the search result
         List<Movie> firstRes= new ArrayList<>(res);
         for(Movie m: firstRes){
@@ -190,12 +200,6 @@ public class MyIndexReader {
         for(Movie m: firstRes){
             searchbyFieldAcc(m.getDirector(),"director",n,res,ids);
         }
-        // then search on multi field
-        searchByMulitFields(prequery,n,res,ids);
-        // then do the fuzzy search
-        searchbyFieldwithCheck(prequery,"title",n,res,ids);
-        searchbyFieldwithCheck(prequery,"actors",n,res,ids);
-        searchbyFieldwithCheck(prequery,"plot",n,res,ids);
         return res;
     }
 
