@@ -134,6 +134,7 @@ public class MyIndexReader {
         boosts.put("imdbID",(float)10);
 
         QueryParser parser = new MultiFieldQueryParser(fields,analyzer,boosts);
+        parser.setDefaultOperator(QueryParser.Operator.AND);
         Query query = parser.parse(prequery);
         TopDocs topDocs = isearcher.search(query,n);
         int i=0;
@@ -266,8 +267,8 @@ public class MyIndexReader {
     public static String filtration(String str) {  // method modified from: https://blog.csdn.net/plg17/article/details/86140816
         String regEx = "[`~!@#$%^&*()+=|{}:;\\\\[\\\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？']";
         String regEx2 = "\\s+";
-        str = Pattern.compile(regEx).matcher(str).replaceAll("").trim();
-        str = Pattern.compile(regEx2).matcher(str).replaceAll(" ").trim();
+        str = Pattern.compile(regEx).matcher(str).replaceAll(" ").trim();
+        str = Pattern.compile(regEx2).matcher(str).replaceAll(" ").replace("-"," ").trim();
 
         return str;
     }

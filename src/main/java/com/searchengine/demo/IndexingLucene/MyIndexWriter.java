@@ -33,7 +33,7 @@ public class MyIndexWriter {
         doc.add(new StringField("imdbID", movie.getImdbID().toLowerCase(), Field.Store.YES));
         doc.add(new TextField("plot", movie.getPlot().toLowerCase(), Field.Store.YES));
         doc.add(new TextField("actors",movie.getActors().toLowerCase().replace(","," ,"), Field.Store.YES));
-        doc.add(new TextField("title",movie.getTitle().toLowerCase(), Field.Store.YES));
+        doc.add(new TextField("title",movie.getTitle().toLowerCase().replace("-"," ").replace(":"," :"), Field.Store.YES));
         doc.add(new TextField("director",movie.getDirector().toLowerCase().replace(","," ,"), Field.Store.YES));
         doc.add(new TextField("year",movie.getYear(), Field.Store.YES));
         doc.add(new TextField("genre",movie.getGenre().toLowerCase().replace(","," ,"), Field.Store.YES));
