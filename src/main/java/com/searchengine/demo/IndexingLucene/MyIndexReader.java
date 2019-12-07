@@ -261,14 +261,6 @@ public class MyIndexReader {
         // then do the fuzzy search with boost on plot
         String[] fields2 = {"plot"};
         fuzzysearchbyMultiFields(prequery,fields2,n,res,ids);
-        // then search by the search result
-        firstRes= new ArrayList<>(res);
-        for(Movie m: firstRes){
-            searchbyFieldAcc(m.getActors(),"actors",n,res,ids);
-        }
-        for(Movie m: firstRes){
-            searchbyFieldAcc(m.getDirector(),"director",n,res,ids);
-        }
         return res;
     }
 
