@@ -138,7 +138,7 @@ public class MyIndexReader {
         Query query = parser.parse(prequery);
         TopDocs topDocs = isearcher.search(query,n);
         int i=0;
-        while (i<topDocs.scoreDocs.length){
+        while (res.size()<n && i<topDocs.scoreDocs.length){
             Document doc = isearcher.doc(topDocs.scoreDocs[i].doc);
             Movie movie = new Movie();
             movie.setImdbID(doc.get("imdbID"));
@@ -178,7 +178,7 @@ public class MyIndexReader {
         Query query = parser.parse(prequery);
         TopDocs topDocs = isearcher.search(query,n);
         int i=0;
-        while (i<topDocs.scoreDocs.length){
+        while (res.size()<n && i<topDocs.scoreDocs.length){
             Document doc = isearcher.doc(topDocs.scoreDocs[i].doc);
             Movie movie = new Movie();
             movie.setImdbID(doc.get("imdbID"));
